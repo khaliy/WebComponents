@@ -1,0 +1,62 @@
+<script src="../clock.js" type="text/javascript"></script>
+<template id="clockTemplate">
+	<style>
+    	:host :empty,
+    	:host :empty + .sep {
+    		visibility: hidden;
+    	}
+        .clock {
+            border: 1px solid green;
+            cursor: pointer;
+            display: inline-block;
+            padding: 5px;
+        }
+    </style>
+    <div class="clock">
+    	<span class="hours"></span>
+    	<span class="sep">:</span>
+    	<span class="minutes"></span>
+    	<span class="sep">.</span>
+    	<span class="seconds"></span>
+    </div>
+</template>
+
+<script type="text/javascript">
+    var thisDocument = document.currentScript.ownerDocument;
+    var Clock = window['ClockModule'].Clock;
+    var p = Object.create(HTMLElement.prototype);
+    p.createdCallback = function() {
+        this.root = this.createShadowRoot();
+        var template = thisDocument.querySelector('#clockTemplate');
+        this.root.appendChild(template.content.cloneNode(true));
+    };
+    p.attachedCallback = function() {
+        this.clock = new Clock(this.root);
+        if (this.hasAttribute('play')) {
+            this.play();
+        }
+        Object.observe(this.clock.value, function() {
+            this.dispatchEvent(new CustomEvent('change', {'detail': this.clock.value.current}));
+        }.bind(this));
+        this.addEventListener('click', function (e) {
+            e.target.playOrStop();
+        });
+    };
+    p.detachedCallback = function() {
+        this.stop();
+    };
+    p.stop = function () {
+        this.clock.stop();
+    };
+    p.play = function () {
+        this.clock.play();
+    };
+    p.playOrStop = function () {
+        if (this.clock.interval) {
+            this.clock.stop();
+        } else {
+            this.clock.play();
+        }
+    }
+    var XClock = document.registerElement('x-clock', {prototype: p});
+</script>
