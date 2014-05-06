@@ -1,0 +1,20 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="polymer-clock.html">
+<link rel="import" href="polymer-clock-controls.html">
+
+<polymer-element name="x-clock-display" noscript>
+    <template>
+        <style>
+            :host :empty,
+            :host :empty + .sep {
+                visibility: hidden;
+            }
+        </style>
+        <x-clock value="{{value}}" play="{{active}}"></x-clock>
+        <x-clock-controls active="{{active}}"></x-clock-controls>
+        <p>
+            The current time is: <span class="time">{{value}}</span>
+        </p>
+    </template>
+</polymer-element>
+

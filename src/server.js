@@ -6,3 +6,4 @@ var app = express();
 app.use(express.static(__dirname));
 
 app.listen(port, host);
+console.log('simple server listens at ' + host + ':' + port);

@@ -16,6 +16,8 @@
             this.el = el;
             this.value = {};
             this.listeners = [];
+            this.observers = [];
+            this.interval = null;
             this.step();
         };
         Clock.prototype = {
@@ -33,6 +35,7 @@
             },
             play: function () {
                 this.interval = setInterval(this.step.bind(this), 1000);
+                this.step();
             },
             labels: function () {
                 return [
@@ -66,6 +69,16 @@
             },
             changed: function (callback) {
                 this.listeners.push(callback);
+            },
+            remove: function () {
+                this.stop();
+                this.listeners = null;
+                this.el = null;
+                this.value = null;
+                this.observers.forEach(function (observer) {
+                    observer.disconnect();
+                });
+                this.observers = null;
             }
         };
         exports.Clock = Clock;
@@ -75,7 +88,7 @@
         }
 
         /**
-         * Optional method to observe the wrapper element's attributes and control it via that element
+         * Optional method to observe the wrapper element's attributes and control the widget via the presence of attribute play on that element
          * @param target
          * @param clock
          */
@@ -93,7 +106,8 @@
                 });
             });
             clocks[target] = clock;
-            clockObserver.observe(target, { attributes: true });
+            clock.observers.push(clockObserver);
+            clockObserver.observe(target, { attributes: true, attributeFilter: ['play'] });
         };
 
     });
