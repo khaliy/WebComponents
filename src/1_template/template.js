@@ -1,31 +1,19 @@
 (function () {
-    var clocks = {};
-    var Clock = window['ClockModule'].Clock;
-    
-    var observer = new MutationObserver(function(mutations) {
-        mutations.forEach(function(mutation) {
-            if (mutation.type === 'attributes') {
-                if (mutation.attributeName === 'play') {
-                    var clock = clocks[mutation.target];
-                    if (mutation.target.hasAttribute('play')) {
-                        clock.play();
-                    } else {
-                        clock.stop();
-                    }
-                }
-            }
-        });    
-    });
+    var Clock = window['ClockModule'].Clock,
+        clockObserve = window['ClockModule'].observe;
 
-    function renderClockTemplate(id, target) {
+    function renderClockTemplate(id, wrapper) {
         var clockTemplate = document.querySelector(id),
-            clock = clockTemplate.content.cloneNode(true).querySelector('.clock');
+            clockNode = clockTemplate.content.cloneNode(true).querySelector('.clock'),
+            clock;
 
-        clock = target.appendChild(clock);
-        observer.observe(target, { attributes: true });
-        clocks[target] = new Clock(clock);
-        if (target.hasAttribute('play')) {
-            clocks[target].play();
+        clockNode = wrapper.appendChild(clockNode);
+        clock = new Clock(clockNode);
+
+        clockObserve(wrapper, clock);
+
+        if (wrapper.hasAttribute('play')) {
+            clock.play();
         }
     }
 
@@ -33,5 +21,5 @@
     [].forEach.call(clockHolders, function (elem) {
         renderClockTemplate('#clockTemplate', elem);
     });
-    
+
 })();

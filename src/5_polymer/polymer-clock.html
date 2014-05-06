@@ -1,0 +1,70 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+
+<script src="../clock.js" type="text/javascript"></script>
+
+<polymer-element name="x-clock" attributes="play">
+    <template>
+    <style>
+        :host :empty,
+        :host :empty + .sep {
+            visibility: hidden;
+        }
+        .clock {
+            border: 1px solid green;
+            cursor: pointer;
+            display: inline-block;
+            padding: 5px;
+        }
+    </style>
+    <div class="clock">
+        <span class="hours"></span>
+        <span class="sep">:</span>
+        <span class="minutes"></span>
+        <span class="sep">.</span>
+        <span class="seconds"></span>
+    </div>
+    </template>
+    <script>
+        var Clock = window['ClockModule'].Clock;
+        Polymer('x-clock', {
+            ready: function() {
+                debugger;
+                this.clock = new Clock(this.shadowRoot);
+
+                if (this.hasAttribute('play')) {
+                    this.play();
+                }
+
+                this.clock.changed(function () {
+                    this.dispatchEvent(new CustomEvent('change', {'detail': this.clock.value}));
+                }.bind(this));
+
+                this.addEventListener('click', function (e) {
+                    e.target.playOrStop();
+                });
+            },
+            attributeChanged: function(attrName, oldVal, newVal) {
+                if (attrName === 'play') {
+                    this.clock[this.hasAttribute('play')?'play':'stop']();
+                }
+            },
+            detached: function () {
+                this.stop();
+            },
+            stop: function () {
+                this.removeAttribute('play');
+            },
+            play: function () {
+                this.setAttribute('play', true);
+            },
+            playOrStop: function () {
+                if (this.hasAttribute('play')) {
+                    this.stop();
+                } else {
+                    this.play();
+                }
+            }
+        });
+    </script>
+</polymer-element>
+

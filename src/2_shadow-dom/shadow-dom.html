@@ -3,21 +3,27 @@
 <head lang="en">
     <meta charset="UTF-8">
     <title></title>
+    <script src="../bower_components/platform/platform.js"></script>
 </head>
 <body>
-    <template id="clockTemplate">
-        <div class="clock">
-        	<span class="hours"></span>
-        	<span class="sep">:</span>
-        	<span class="minutes"></span>
-        	<span class="sep">.</span>
-        	<span class="seconds"></span>
-        </div>
-    </template>
 
-    <div class="clock-holder" play></div>
-    
-    <script src="../clock.js" type="text/javascript"></script>
-    <script src="shadow-dom.js" type="text/javascript"></script>
+<template id="clockTemplate">
+    <div class="clock">
+        <span class="hours"></span>
+        <span class="sep">:</span>
+        <span class="minutes"></span>
+        <span class="sep">.</span>
+        <span class="seconds"></span>
+    </div>
+</template>
+
+<div class="clock-holder" play></div>
+<div class="controls">
+    <button type="submit" class="toggle">Play/stop</button>
+</div>
+
+<script src="../clock.js" type="text/javascript"></script>
+<script src="../controls.js" type="text/javascript"></script>
+<script src="shadow-dom.js" type="text/javascript"></script>
 </body>
 </html>

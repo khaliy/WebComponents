@@ -3,20 +3,26 @@
 <head lang="en">
     <meta charset="UTF-8">
     <title></title>
-    <link rel="import" href="clock.html">
     <style type="text/css">
-	    *:unresolved {
-    		display: none;
-	    }
+        :unresolved {
+            color: blue;
+        }
     </style>
+    <link rel="import" href="clock.html" clock>
+    <script src="../bower_components/platform/platform.js"></script>
 </head>
 <body>
     <x-clock></x-clock>
     <p>
-    	The current time is: <span class="time"></span>
+        The current time is: <span class="time"></span>
     </p>
 
-    <x-clock play></x-clock>
+
+    <div class="controls">
+        <button type="submit" class="toggle">Play/stop</button>
+    </div>
+
+    <script src="../controls.js" type="text/javascript"></script>
     <script src="custom-component.js" type="text/javascript"></script>
 </body>
 </html>
