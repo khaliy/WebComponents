@@ -4,42 +4,45 @@
 
 <polymer-element name="x-clock" attributes="play value" on-click="{{playOrStop}}">
     <template>
-    <style>
-        :host :empty,
-        :host :empty + .sep {
-            visibility: hidden;
-        }
-        .clock {
-            border: 1px solid green;
-            cursor: pointer;
-            display: inline-block;
-            padding: 5px;
-        }
-    </style>
-    <div class="clock">
-        <span class="hours"></span>
-        <span class="sep">:</span>
-        <span class="minutes"></span>
-        <span class="sep">.</span>
-        <span class="seconds"></span>
-    </div>
+        <style>
+            .clock {
+                border: 1px solid green;
+                cursor: pointer;
+                display: inline-block;
+                padding: 5px;
+            }
+        </style>
+        <div class="clock">
+            <span class="hours">{{hours | pad}}</span>
+            <span class="sep">:</span>
+            <span class="minutes">{{minutes | pad}}</span>
+            <span class="sep">.</span>
+            <span class="seconds">{{seconds | pad}}</span>
+        </div>
     </template>
     <script>
         var Clock = window['ClockModule'].Clock;
         Polymer('x-clock', {
             ready: function() {
-                this.clock = new Clock(this.shadowRoot);
+                this.clock = new Clock(null);
 
+                this.bindValue();
+                this.clock.changed(function () {
+                    this.bindValue();
+                }.bind(this));
                 if (this.play) {
                     this.clock.play();
                 }
-
-                this.clock.changed(function () {
-                    this.value = this.clock.value;
-                }.bind(this));
-
-                this.value = this.clock.value;
             },
+            bindValue: function () {
+                this.value = this.clock.value;
+                this.hours = this.value.getHours();
+                this.minutes = this.value.getMinutes();
+                this.seconds = this.value.getSeconds();
+            },
+            hours: 0,
+            minutes: 0,
+            seconds: 0,
             play: false,
             playChanged: function(oldVal, newVal) {
                 this.clock[this.play?'play':'stop']();
@@ -52,6 +55,9 @@
             },
             playOrStop: function () {
                 this.play = !this.play;
+            },
+            pad: function (value) {
+                return (value>9)? ''+value : '0'+value;
             }
         });
     </script>

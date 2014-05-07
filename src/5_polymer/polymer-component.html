@@ -4,15 +4,15 @@
     <meta charset="UTF-8">
     <title></title>
     <style type="text/css">
-        :unresolved {
-            color: blue;
+        [unresolved] {
+            display: none;
         }
     </style>
     <script src="../bower_components/platform/platform.js"></script>
     <link rel="import" href="polymer-clock.html" clock>
 </head>
 <body>
-<x-clock></x-clock>
+<x-clock unresolved></x-clock>
 <p>
     The current time is: <span class="time"></span>
 </p>

@@ -22,16 +22,18 @@
         };
         Clock.prototype = {
             render: function () {
-                [].forEach.call(this.labels(), function (elem) {
-                    var label = this.el.querySelector(elem.label);
-                    if (label) {
-                        label.textContent = elem.value;
-                    }
-                }, this);
+                if (this.el) {
+                    [].forEach.call(this.labels(), function (elem) {
+                        var label = this.el.querySelector(elem.label);
+                        if (label) {
+                            label.textContent = elem.value;
+                        }
+                    }, this);
 
-                [].forEach.call(this.el.querySelectorAll('.sep'), function (elem) {
-                    elem.style.visibility = this.date.getSeconds() % 2 ? 'visible' : 'hidden';
-                }, this);
+                    [].forEach.call(this.el.querySelectorAll('.sep'), function (elem) {
+                        elem.style.visibility = this.date.getSeconds() % 2 ? 'visible' : 'hidden';
+                    }, this);
+                }
             },
             play: function () {
                 this.interval = setInterval(this.step.bind(this), 1000);

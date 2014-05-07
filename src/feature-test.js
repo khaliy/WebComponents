@@ -7,7 +7,18 @@ describe('Testing the platform', function () {
         expect(document.createElement('div').createShadowRoot).toBeDefined();
     });
     it('html import available', function () {
-        expect(LinkImport).toBeDefined();
-        expect(document.createElement('link') instanceof LinkImport).toBeTruthy();
+        var link = document.createElement('link');
+        link.setAttribute('rel', 'import');
+        link.setAttribute('href', 'http://index.hu');
+        document.body.appendChild(link);
+        waitsFor(function () {
+            return 'import' in link;
+        });
+        runs(function() {
+            expect(link.import).toBeDefined();
+        });
+    });
+    it('custom elements can be registered', function () {
+        expect(document.registerElement).toBeDefined();
     });
 });

@@ -4,25 +4,25 @@
 
 <polymer-element name="x-clock" attributes="play">
     <template>
-    <style>
-        :host :empty,
-        :host :empty + .sep {
-            visibility: hidden;
-        }
-        .clock {
-            border: 1px solid green;
-            cursor: pointer;
-            display: inline-block;
-            padding: 5px;
-        }
-    </style>
-    <div class="clock">
-        <span class="hours"></span>
-        <span class="sep">:</span>
-        <span class="minutes"></span>
-        <span class="sep">.</span>
-        <span class="seconds"></span>
-    </div>
+        <style>
+            :host :empty,
+            :host :empty + .sep {
+                visibility: hidden;
+            }
+            .clock {
+                border: 1px solid green;
+                cursor: pointer;
+                display: inline-block;
+                padding: 5px;
+            }
+        </style>
+        <div class="clock">
+            <span class="hours"></span>
+            <span class="sep">:</span>
+            <span class="minutes"></span>
+            <span class="sep">.</span>
+            <span class="seconds"></span>
+        </div>
     </template>
     <script>
         var Clock = window['ClockModule'].Clock;

@@ -22,7 +22,6 @@
 </template>
 
 <script type="text/javascript">
-    window.addEventListener('WebComponentsReady', function(e) {
         var thisDocument = document.currentScript ? document.currentScript.ownerDocument : document._currentScript ? document._currentScript.ownerDocument : document.querySelector('link[rel=import][clock]').import;
         var Clock = window['ClockModule'].Clock;
         var p = Object.create(HTMLElement.prototype);
@@ -68,6 +67,5 @@
                 this.play();
             }
         };
-        var XClock = document.registerElement('x-clock', {prototype: p});
-    });
+        window.XClock = document.registerElement('x-clock', {prototype: p});
 </script>
